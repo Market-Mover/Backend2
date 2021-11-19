@@ -1,0 +1,36 @@
+﻿<EditForm class="needs-validation" Model="@adress" OnValidSubmit="@HandleValidSubmit">
+  
+    <div class="mb-3">
+        <label for="adress" class="form-label">Adress Line</label>
+        <InputText id="" class="form-control" @bind-Value="adress.AdressLine" required />
+    </div>
+    <div class="mb-3">
+        <label for="city" class="form-label">City</label>
+        <InputText id="" class="form-control" @bind-Value="adress.City" required />
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Zip Code</label>
+        <InputText id="description" class="form-control" @bind-Value="adress.ZipCode" required />
+    </div>
+    
+    <div class="mb-5">
+        <button class="btn btn-secondary" type="submit">Add Adress</button>
+    </div>
+
+</EditForm>
+
+
+
+@code {
+    private Adress adress = new();
+
+    private async Task HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync("https://localhost:44311/api/adresses", adress);
+        adress = new();
+
+        StateHasChanged();
+    }
+
+   
+}

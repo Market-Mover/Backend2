@@ -1,0 +1,28 @@
+﻿<EditForm class="needs-validation" Model="@category" OnValidSubmit="@HandleValidSubmit">
+
+    <div class="mb-3">
+        <label for="adress" class="form-label">Category</label>
+        <InputText id="" class="form-control" @bind-Value="category.CategoryName" required />
+    </div>
+    <div class="mb-5">
+        <button class="btn btn-secondary" type="submit">Add Category</button>
+    </div>
+
+
+</EditForm>
+
+
+
+@code {
+    private Category category = new();
+
+    private async Task HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync("https://localhost:44311/api/categories", category);
+        category = new();
+
+        StateHasChanged();
+    }
+
+
+}

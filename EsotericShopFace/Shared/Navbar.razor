@@ -1,0 +1,70 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-info shadow">
+    <div class="container py-3">
+        <NavLink class="navbar-brand" href="" Match="NavLinkMatch.All">
+
+            Esotericshop.org
+        </NavLink>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbar">
+            <div class="navbar-nav">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">Home</NavLink>
+                <NavLink class="nav-link" href="products">Products</NavLink>
+                <NavLink class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @if (categories == null)
+                        {
+                            <li>Loading...</li>
+                        }
+                        else
+                        {
+                            @foreach (var category in categories)
+                            {
+                                <li><a class="dropdown-item" id="" href="categories/@category.Id">@category.CategoryName</a></li>
+                            }
+
+                        }
+
+
+                    </ul>
+                </NavLink>
+                <NavLink class="nav-link" href="admin">Admin</NavLink>
+            </div>
+            <div class="shop-cart">
+                <i class="fas fa-shopping-cart me-2"></i>
+
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+@code {
+    
+
+    private Category[] categories;
+
+    private async Task GetCategoryAsync()
+    {
+        categories = await Http.GetFromJsonAsync<Category[]>("https://localhost:44311/api/Categories");
+        @foreach (var item in categories)
+        {
+            Console.WriteLine(item.CategoryName.ToString());
+        }
+        StateHasChanged();
+    }
+
+    protected override async void OnInitialized()
+    {
+        await GetCategoryAsync();
+    }
+@*
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await GetCategoryAsync();
+    }*@
+}

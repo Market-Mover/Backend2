@@ -1,0 +1,30 @@
+﻿<NavLink href="@Href" class="m-3">
+
+    <div class="">
+        <div class="card shadow" style="width: 18rem;">
+            <img src="@Item.ImgUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Item.ProductName</h5>
+                <p class="card-text">@Item.ShortDescription</p>
+                <h4 class="card-price">@Item.Price</h4>
+                <a href="#" class="btn btn-primary">Buy</a>
+            </div>
+        </div>
+    </div>
+
+</NavLink>
+
+
+@code {
+    [Parameter]
+    public Product Item { get; set; }
+    public string Href { get; set; }
+
+
+
+    protected override void OnInitialized()
+    {
+        Href = "product/" + Item.Id.ToString();
+    }
+
+}

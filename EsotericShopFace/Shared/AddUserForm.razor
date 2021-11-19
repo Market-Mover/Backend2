@@ -1,0 +1,44 @@
+﻿<EditForm class="needs-validation" Model="@user" OnValidSubmit="@HandleValidSubmit">
+    <div class="mb-3">
+        <label for="firstname" class="form-label">First name</label>
+        <InputText id="validationCustom01" class="form-control" @bind-Value="user.FirstName" required />
+    </div>
+    <div class="mb-3">
+        <label for="last name" class="form-label">Last name</label>
+        <InputText id="" class="form-control" @bind-Value="user.LastName" required />
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <InputText type="email" id="" class="form-control" @bind-Value="user.Email" required />
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <InputText type="password" id="password" class="form-control" @bind-Value="user.Password" required />
+    </div>
+    @*<div class="mb-3">
+        <label for="price" class="form-label">Adress</label>
+        <InputNumber id="name" class="form-control" @bind-Value="user.AdressId" required />
+    </div>*@
+    
+    <div class="mb-5">
+        <button class="btn btn-secondary" type="submit">Add User</button>
+    </div>
+
+</EditForm>
+
+
+
+@code {
+    private User user = new();
+
+    private async Task HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync("https://localhost:44311/api/users", user);
+        user = new();
+
+        StateHasChanged();
+    }
+
+   
+
+}

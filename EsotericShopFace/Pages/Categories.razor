@@ -1,0 +1,55 @@
+﻿@page "/categories/{id}"
+
+<h3>Categories</h3>
+
+<div class="container justify-content-center">
+    @if (categories == null)
+    {
+        <p>Loading...</p>
+
+    }
+    else
+    {
+        foreach (var categories in categories)
+        {
+            if (categories.Id == Int32.Parse(Id))
+            {
+                foreach (var Product in categories.Products)
+                {
+                    <ProductItem Item="@Product" />
+                }
+            }
+        }
+    }
+</div>
+
+
+    @code {
+
+        [Parameter]
+        public string Id { get; set; }
+
+        private Category[] categories;
+        private async Task GetCategoriesAsync()
+        {
+            categories = await Http.GetFromJsonAsync<Category[]>("https://localhost:44311/api/categories");
+
+            StateHasChanged();
+
+            foreach( var item in categories)
+            {
+                Console.WriteLine(item.ToString());
+            }
+
+        }
+
+        protected override async void OnInitialized()
+        {
+            await GetCategoriesAsync();
+        }
+
+       @* protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await GetCategoriesAsync();
+        }*@
+    }
